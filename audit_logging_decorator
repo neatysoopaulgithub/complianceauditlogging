@@ -1,0 +1,19 @@
+import functools
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+def audit_log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        logging.info(f"Audit Log - Function {func.__name__} called with {args}, {kwargs}")
+        return result
+    return wrapper
+
+@audit_log
+def update_user_data(user_id, data):
+    # simulate updating user data
+    return f"User {user_id} updated"
+
+update_user_data(42, {"consent": True})
